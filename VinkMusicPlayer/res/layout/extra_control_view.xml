@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal"
+    android:paddingBottom="4dip"
+    android:paddingTop="1dip" >
+
+    <ImageButton
+        android:id="@+id/shuffle"
+        android:layout_width="85dip"
+        android:layout_height="54dip" />
+
+    <ImageButton
+        android:id="@+id/repeat"
+        android:layout_width="85dip"
+        android:layout_height="54dip"
+        android:layout_toRightOf="@+id/shuffle" />
+
+    <ImageButton
+        android:id="@+id/curplaylist"
+        android:layout_width="85dip"
+        android:layout_height="54dip"
+        android:layout_toRightOf="@+id/repeat"
+        android:src="@drawable/ic_mp_current_playlist_btn" />
+
+</RelativeLayout>

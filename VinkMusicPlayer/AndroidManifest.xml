@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vink.music"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="16" />
+
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/player_name"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".ui.MainLibrary"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.vink.music.MAIN_LIBRARY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.DeleteItems"
+            android:exported="false"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".ui.CreatePlaylist"
+            android:exported="false"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".ui.Settings"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.vink.music.util.MediaButtonIntentReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vink.music.util.MediaAppWidgetProvider"
+            android:label="@string/player_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+
+        <service
+            android:name="com.vink.music.support.MediaPlaybackService"
+            android:exported="false" />
+    </application>
+
+</manifest>

@@ -1,0 +1,46 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!-- Basic Color -->
+    <style name="music_background_default">
+        <item name="android:background">@color/music_main_color</item>
+    </style>
+
+    <style name="music_background_red">
+        <item name="android:background">@color/solid_red</item>
+    </style>
+
+    <style name="music_background_yellow">
+        <item name="android:background">@color/solid_yellow</item>
+    </style>
+
+    <!-- Listview divider -->
+    <style name="divider_default">
+        <item name="android:divider">@color/music_main_color</item>
+    </style>
+
+    <style name="divider_red">
+        <item name="android:divider">@color/solid_red</item>
+    </style>
+
+    <style name="divider_yellow">
+        <item name="android:divider">@color/solid_yellow</item>
+    </style>
+
+</resources>

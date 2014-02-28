@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#000525" >
+
+    <TextView
+        android:id="@+id/track_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingLeft="5dip"
+        android:shadowColor="#ff000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/play_back_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/track_title"
+        android:orientation="horizontal"
+        android:paddingBottom="4dip"
+        android:paddingTop="1dip" >
+
+        <TextView
+            android:id="@+id/currenttime"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:paddingLeft="5dip"
+            android:shadowColor="#ff000000"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dip"
+            android:layout_marginTop="1dip"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <com.vink.music.support.RepeatingImageButton
+                android:id="@+id/prev"
+                style="@android:style/MediaButton.Previous" />
+
+            <ImageButton
+                android:id="@+id/pause"
+                style="@android:style/MediaButton.Play" />
+
+            <com.vink.music.support.RepeatingImageButton
+                android:id="@+id/next"
+                style="@android:style/MediaButton.Next" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/totaltime"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="5dip"
+            android:shadowColor="#ff000000"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@android:id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="36dip"
+        android:layout_below="@+id/play_back_container"
+        android:paddingBottom="4dip"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip" />
+
+</RelativeLayout>

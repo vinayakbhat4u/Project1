@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical" >
+
+    <!-- android:background="#edeeee" -->
+
+    <com.vink.music.support.TouchInterceptor
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:alwaysDrawnWithCache="false"
+        android:cacheColorHint="@drawable/transparent_background"
+        android:clickable="true"
+        style="?divider"
+        android:dividerHeight="0.5dp"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="true"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:persistentDrawingCache="none"
+        android:scrollingCache="false"
+        android:smoothScrollbar="true" />
+
+</RelativeLayout>

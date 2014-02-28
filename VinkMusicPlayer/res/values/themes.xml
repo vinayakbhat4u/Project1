@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="blue">
+    	<item name="music_background">@style/music_background_default</item>
+    	<item name="divider">@style/divider_default</item>
+    </style>
+    
+    <style name="red">
+    	<item name="music_background">@style/music_background_red</item>
+    	<item name="divider">@style/divider_red</item>
+    </style>
+    
+    <style name="yellow">
+    	<item name="music_background">@style/music_background_yellow</item>
+    	<item name="divider">@style/divider_yellow</item>
+    </style>
+    
+</resources>

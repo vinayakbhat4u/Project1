@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+		
+	<attr name="music_background" format="reference" />
+	<attr name="divider" format="reference" />
+	
+	
+		
+</resources>
+
