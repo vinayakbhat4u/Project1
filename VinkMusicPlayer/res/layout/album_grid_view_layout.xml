@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_with_shadow"
+    android:orientation="vertical">
+
+    <com.vink.music.ui.fragments.SquareImageView
+        android:id="@+id/icon"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:scaleType="centerCrop"/>
+
+    <!-- <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dip"
+        android:paddingRight="11dip"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold" /> -->
+
+<!--     android:textColor="?android:attr/textColorTertiary" -->
+    <!-- The height is set to half the height of the parent, which is 64 dip -->
+
+    <TextView
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:paddingLeft="9dip"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/icon"
+        android:layout_toLeftOf="@+id/options"
+        android:layout_alignParentLeft="true" />
+
+    <!-- The height is set to half the height of the parent, which is 64 dip -->
+
+    <TextView
+        android:id="@+id/line2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:paddingLeft="9dip"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:visibility="visible" 
+        android:layout_below="@id/line1"
+        android:layout_toLeftOf="@+id/options" 
+        android:layout_alignParentLeft="true"/>
+
+    <ImageView
+        android:id="@+id/play_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_below="@id/line2"/>
+    
+    <ImageView 
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/icon"
+        android:src="@drawable/ic_action_overflow"/>
+
+</RelativeLayout>

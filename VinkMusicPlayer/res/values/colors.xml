@@ -53,5 +53,6 @@
     <color name="holo_orange_dark">#ffff8800</color>
     <!-- A really bright Holo shade of blue -->
     <color name="holo_blue_bright">#ff00ddff</color>
+    <color name="holo_light_grey">#d3d3d3</color>
 
 </resources>

@@ -16,6 +16,17 @@
 
 package com.vink.music.util;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -41,13 +52,10 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
@@ -58,17 +66,6 @@ import android.view.Window;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Locale;
 
 import com.vink.music.R;
 import com.vink.music.support.MediaPlaybackService;
@@ -1098,7 +1095,7 @@ public class MusicUtils {
         return bm;
     }
     
-	private static Bitmap getDefaultArtwork(Context context) {
+	public static Bitmap getDefaultArtwork(Context context) {
 		if (context == null)
 			return null;
 		BitmapFactory.Options opts = new BitmapFactory.Options();

@@ -16,43 +16,6 @@
 
 package com.vink.music.support;
 
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.BroadcastReceiver;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Bitmap;
-import android.media.audiofx.AudioEffect;
-import android.media.AudioManager;
-import android.media.AudioManager.OnAudioFocusChangeListener;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.RemoteControlClient;
-import android.media.RemoteControlClient.MetadataEditor;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.PowerManager;
-import android.os.SystemClock;
-import android.os.PowerManager.WakeLock;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,12 +23,46 @@ import java.lang.ref.WeakReference;
 import java.util.Random;
 import java.util.Vector;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
+import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.RemoteControlClient;
+import android.media.audiofx.AudioEffect;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.os.SystemClock;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
+
 import com.vink.music.R;
+import com.vink.music.util.IMediaPlaybackService;
 import com.vink.music.util.MediaAppWidgetProvider;
 import com.vink.music.util.MediaButtonIntentReceiver;
 import com.vink.music.util.MusicUtils;
 import com.vink.music.util.SharedPreferencesCompat;
-import com.vink.music.util.IMediaPlaybackService;
 
 /**
  * Provides "background" audio playback capabilities, allowing the

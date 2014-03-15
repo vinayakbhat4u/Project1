@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\vinayak\\workspace\\VinkMusicPlayer\\src\\com\\vink\\music\\util\\IMediaPlaybackService.aidl
+ * Original file: C:\\Users\\vinayak\\Documents\\GitHub\\Project1\\VinkMusicPlayer\\src\\com\\vink\\music\\util\\IMediaPlaybackService.aidl
  */
 package com.vink.music.util;
 public interface IMediaPlaybackService extends android.os.IInterface

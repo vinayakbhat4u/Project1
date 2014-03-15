@@ -2,24 +2,34 @@ package com.vink.music.ui;
 
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Switch;
 
 import com.vink.music.R;
@@ -63,6 +73,11 @@ public class MainLibrary extends FragmentActivity implements NotifyMainLibrary,
 	private static final int SETTINGS = 0;
 	private static final String CUR_CONTROL_PAGE = "current_controller_page_number";
 	private static final int DEFAULT_PAGE = 0;
+	
+	private String[] mNavigationDrawerListItems;
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerListView;
+	private ActionBarDrawerToggle mDrawerToggle;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -231,6 +246,8 @@ public class MainLibrary extends FragmentActivity implements NotifyMainLibrary,
 			return;// TODO: show some message
 		}
 		initViewPager();
+		initNavigationDrawer();
+		
 		mTrackbrowserFragment = new TrackBrowser();
 	}
 
@@ -239,6 +256,52 @@ public class MainLibrary extends FragmentActivity implements NotifyMainLibrary,
 		setMusicLibraryPage();
 		mProgressDialog.dismiss();
 	}
+	
+	private void initNavigationDrawer(){
+		mNavigationDrawerListItems = getResources().getStringArray(R.array.navigation_drawer_list);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerListView = (ListView) findViewById(R.id.left_drawer);
+		mDrawerListView.setAdapter(new NavigationDrawerListAdapter(this, R.layout.navigation_drawer_list_item_layout, mNavigationDrawerListItems));
+		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				String tag = (String) view.getTag();
+				if(tag.equals("Settings")){
+					Intent intent = new Intent(MainLibrary.this, Settings.class);
+					startActivityForResult(intent, THEME_CHANGED);
+				}
+				mDrawerLayout.closeDrawers();
+			}
+		});
+		
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, R.string.player_name, R.string.player_name) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(R.string.player_name);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(R.string.player_name);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+	}
+	
 
 	@Override
 	public void onServiceDisconnected(ComponentName name) {
@@ -286,6 +349,10 @@ public class MainLibrary extends FragmentActivity implements NotifyMainLibrary,
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+	          return true;
+	        }
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			Intent intent = new Intent(this, Settings.class);
@@ -318,4 +385,5 @@ public class MainLibrary extends FragmentActivity implements NotifyMainLibrary,
 		}
 
 	}
+
 }

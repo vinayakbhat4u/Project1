@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,8 +29,12 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AlphabetIndexer;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -45,7 +50,7 @@ import com.vink.music.util.Constants;
 import com.vink.music.util.MusicAlphabetIndexer;
 import com.vink.music.util.MusicUtils;
 
-public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
+public class AlbumBrowser extends Fragment implements MusicUtils.Defs,OnItemClickListener{
 
 	private String mCurrentAlbumId;
 	private String mCurrentAlbumName;
@@ -61,6 +66,8 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 	private Cursor mAlbumCursor;
 	private String mArtistId;
 	private NotifyMainLibrary mActivityCommunicator;
+	private View vg;
+	private GridView mGridView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,9 +99,11 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 		getActivity().registerReceiver(mScanListener, f);
 
 		// MusicUtils.updateButtonBar(this.getActivity(), R.id.albumtab);
-		ListView lv = getListView();
-		lv.setOnCreateContextMenuListener(this);
-		lv.setTextFilterEnabled(true);
+		//ListView lv = getListView();
+		mGridView = (GridView) vg.findViewById(R.id.gridView1);
+		mGridView.setOnCreateContextMenuListener(this);
+		mGridView.setOnItemClickListener(this);
+		mGridView.setTextFilterEnabled(true);
 		setEmptyView();
 
 		mAdapter = (AlbumListAdapter) getActivity()
@@ -102,14 +111,15 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 		if (mAdapter == null) {
 			// Log.i("@@@", "starting query");
 			mAdapter = new AlbumListAdapter(getActivity().getApplication(),
-					this, R.layout.track_list_item, mAlbumCursor,
+					this, R.layout.album_grid_view_layout, mAlbumCursor,
 					new String[] {}, new int[] {});
-			setListAdapter(mAdapter);
+		//	setListAdapter(mAdapter);
+			mGridView.setAdapter(mAdapter);
 			getActivity().setTitle(R.string.working_albums);
 			getAlbumCursor(mAdapter.getQueryHandler(), null);
 		} else {
 			mAdapter.setActivity(this);
-			setListAdapter(mAdapter);
+			mGridView.setAdapter(mAdapter);
 			mAlbumCursor = mAdapter.getCursor();
 			if (mAlbumCursor != null) {
 				init(mAlbumCursor);
@@ -123,14 +133,16 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 	private void setEmptyView() {
 		TextView noMedia = null;
 		noMedia = (TextView) getView().findViewById(R.id.error_message);
-		getListView().setEmptyView(noMedia);
+		mGridView.setEmptyView(noMedia);
+		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.media_picker_activity, container,
+		View view = inflater.inflate(R.layout.album_grid_view, container,
 				false);
+		vg = view;
 		return view;
 	}
 
@@ -247,7 +259,8 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onItemClick(AdapterView<?> arg0, View view, int poition, long id) {
+		// TODO Auto-generated method stub
 		Bundle bundle = new Bundle();
 		bundle.putInt(Constants.LAUNCH_TYPE, Constants.TRACK_BROWSER);
 		bundle.putString(Constants.ALBUM_EXTRA, Long.valueOf(id).toString());
@@ -259,8 +272,8 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 	private BroadcastReceiver mTrackListListener = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (getListView() != null)
-				getListView().invalidateViews();
+			if (mGridView != null)
+				mGridView.invalidateViews();
 			MusicUtils.updateNowPlaying(AlbumBrowser.this.getActivity());
 		}
 	};
@@ -339,8 +352,8 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 
 		// restore previous position
 		if (mLastListPosCourse >= 0) {
-			getListView().setSelectionFromTop(mLastListPosCourse,
-					mLastListPosFine);
+			/*lv.setSelectionFromTop(mLastListPosCourse,
+					mLastListPosFine);*/
 			mLastListPosCourse = -1;
 		}
 
@@ -390,7 +403,7 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 			TextView line1;
 			TextView line2;
 			ImageView play_indicator;
-			ImageView icon;
+			SquareImageView icon;
 		}
 
 		class QueryHandler extends AsyncQueryHandler {
@@ -467,7 +480,7 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 			vh.line1 = (TextView) v.findViewById(R.id.line1);
 			vh.line2 = (TextView) v.findViewById(R.id.line2);
 			vh.play_indicator = (ImageView) v.findViewById(R.id.play_indicator);
-			vh.icon = (ImageView) v.findViewById(R.id.icon);
+			vh.icon = (SquareImageView) v.findViewById(R.id.icon);
 			vh.icon.setBackgroundDrawable(mDefaultAlbumIcon);
 			vh.icon.setPadding(0, 0, 1, 0);
 			v.setTag(vh);
@@ -495,7 +508,7 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 			}
 			vh.line2.setText(displayname);
 
-			ImageView iv = vh.icon;
+			SquareImageView iv = vh.icon;
 			// We don't actually need the path to the thumbnail file,
 			// we just use it to see if there is album art or not
 			String art = cursor.getString(mAlbumArtIndex);
@@ -507,13 +520,13 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 						mDefaultAlbumIcon);
 				iv.setImageDrawable(d);
 			}
-
+            ImageView iv1;
 			long currentalbumid = MusicUtils.getCurrentAlbumId();
-			iv = vh.play_indicator;
+			iv1 = vh.play_indicator;
 			if (currentalbumid == aid) {
-				iv.setImageDrawable(mNowPlayingOverlay);
+				iv1.setImageDrawable(mNowPlayingOverlay);
 			} else {
-				iv.setImageDrawable(null);
+				iv1.setImageDrawable(null);
 			}
 		}
 
@@ -568,10 +581,9 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 
 	@Override
 	public void onDestroyView() {
-		ListView lv = getListView();
-		if (lv != null) {
-			mLastListPosCourse = lv.getFirstVisiblePosition();
-			View cv = lv.getChildAt(0);
+		if (mGridView != null) {
+			mLastListPosCourse = mGridView.getFirstVisiblePosition();
+			View cv = mGridView.getChildAt(0);
 			if (cv != null) {
 				mLastListPosFine = cv.getTop();
 			}
@@ -589,7 +601,7 @@ public class AlbumBrowser extends ListFragment implements MusicUtils.Defs {
 		// Because we pass the adapter to the next activity, we need to make
 		// sure it doesn't keep a reference to this activity. We can do this
 		// by clearing its DatasetObservers, which setListAdapter(null) does.
-		setListAdapter(null);
+		mGridView.setAdapter(null);
 		mAdapter = null;
 		getActivity().unregisterReceiver(mScanListener);
 		super.onDestroyView();

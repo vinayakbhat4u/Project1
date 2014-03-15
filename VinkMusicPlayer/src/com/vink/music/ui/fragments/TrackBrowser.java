@@ -10,10 +10,14 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.AbstractCursor;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,6 +89,7 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 	private static int mLastListPosFine = -1;
 	private boolean mUseLastListPos = false;
 	private ServiceToken mToken;
+	private BitmapDrawable mDefaultTrackIcon;
 
 	// private static final ProgressDialog mProgressDialog = null;
 
@@ -132,7 +137,8 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 				MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
 				MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.ARTIST_ID,
-				MediaStore.Audio.Media.DURATION };
+				MediaStore.Audio.Media.DURATION,
+				};
 		mPlaylistMemberCols = new String[] {
 				MediaStore.Audio.Playlists.Members._ID,
 				MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
@@ -599,6 +605,7 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 			ImageView play_indicator;
 			CharArrayBuffer buffer1;
 			char[] buffer2;
+			ImageView icon;
 		}
 
 		class TrackQueryHandler extends AsyncQueryHandler {
@@ -664,6 +671,10 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 			mDisableNowPlayingIndicator = disablenowplayingindicator;
 			mUnknownArtist = context.getString(R.string.unknown_artist_name);
 			mUnknownAlbum = context.getString(R.string.unknown_album_name);
+			Resources r = context.getResources();
+			Bitmap b = BitmapFactory.decodeResource(r,
+					R.drawable.albumart_mp_unknown_list);
+			mDefaultTrackIcon = new BitmapDrawable(context.getResources(), b);
 
 			mQueryHandler = new TrackQueryHandler(context.getContentResolver());
 		}
@@ -707,14 +718,15 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			View v = super.newView(context, cursor, parent);
-			ImageView iv = (ImageView) v.findViewById(R.id.icon);
-			iv.setVisibility(View.GONE);
+			//ImageView iv = (ImageView) v.findViewById(R.id.icon);
+			//iv.setVisibility(View.GONE);
 
 			ViewHolder vh = new ViewHolder();
 			vh.line1 = (TextView) v.findViewById(R.id.line1);
 			vh.line2 = (TextView) v.findViewById(R.id.line2);
 			vh.duration = (TextView) v.findViewById(R.id.duration);
 			vh.play_indicator = (ImageView) v.findViewById(R.id.play_indicator);
+			vh.icon = (ImageView) v.findViewById(R.id.icon);
 			vh.buffer1 = new CharArrayBuffer(100);
 			vh.buffer2 = new char[200];
 			v.setTag(vh);
@@ -728,6 +740,19 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 
 			cursor.copyStringToBuffer(mTitleIdx, vh.buffer1);
 			vh.line1.setText(vh.buffer1.data, 0, vh.buffer1.sizeCopied);
+			
+			ImageView icon = vh.icon;
+			// We don't actually need the path to the thumbnail file,
+			// we just use it to see if there is album art or not
+			//boolean unknown = 
+			/*String art = mAlbumId;
+			long aid = cursor.getLong(0);
+			if ( art == null || art.length() == 0) {
+				icon.setImageDrawable(null);
+			} else {*/
+				Bitmap d = MusicUtils.getDefaultArtwork(context);
+				icon.setImageBitmap(d);
+			//}
 
 			int secs = cursor.getInt(mDurationIdx) / 1000;
 			if (secs == 0) {

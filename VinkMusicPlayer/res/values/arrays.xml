@@ -48,5 +48,12 @@
         <item>12</item>
         <item>13</item>
     </string-array>
+    <string-array name="navigation_drawer_list">
+        <item>My Library</item>
+         <item>Equaliser</item>
+        <item>Settings</item>      
+        <item>Send Feedback</item>
+    </string-array>
+ 
 
 </resources>
