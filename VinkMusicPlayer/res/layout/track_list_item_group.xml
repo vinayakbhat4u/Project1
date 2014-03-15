@@ -18,8 +18,9 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dip"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
+    android:background="@drawable/fancy_list_selector"
     android:ignoreGravity="@+id/icon"
     android:paddingLeft="47dip">
 

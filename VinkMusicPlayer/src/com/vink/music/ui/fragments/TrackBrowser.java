@@ -17,7 +17,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -137,8 +136,7 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 				MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
 				MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.ARTIST_ID,
-				MediaStore.Audio.Media.DURATION,
-				};
+				MediaStore.Audio.Media.DURATION, };
 		mPlaylistMemberCols = new String[] {
 				MediaStore.Audio.Playlists.Members._ID,
 				MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
@@ -153,12 +151,9 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 				R.id.songtab);
 		mTrackList = getListView();
 		mTrackList.setOnCreateContextMenuListener(this);
-		mTrackList.setCacheColorHint(0);
 		if (mEditMode) {
 			((TouchInterceptor) mTrackList).setDropListener(mDropListener);
 			((TouchInterceptor) mTrackList).setRemoveListener(mRemoveListener);
-			mTrackList.setDivider(null);
-			// mTrackList.setSelector(R.drawable.list_selector_background);
 		} else {
 			mTrackList.setTextFilterEnabled(true);
 		}
@@ -554,7 +549,7 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 				where.append(" AND " + MediaStore.Audio.Media.ARTIST_ID + "="
 						+ mArtistId);
 			}
-			
+
 			where.append(" AND " + MediaStore.Audio.Media.IS_MUSIC + "=1");
 			Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 			if (!TextUtils.isEmpty(filter)) {
@@ -718,8 +713,8 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			View v = super.newView(context, cursor, parent);
-			//ImageView iv = (ImageView) v.findViewById(R.id.icon);
-			//iv.setVisibility(View.GONE);
+			// ImageView iv = (ImageView) v.findViewById(R.id.icon);
+			// iv.setVisibility(View.GONE);
 
 			ViewHolder vh = new ViewHolder();
 			vh.line1 = (TextView) v.findViewById(R.id.line1);
@@ -740,19 +735,19 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 
 			cursor.copyStringToBuffer(mTitleIdx, vh.buffer1);
 			vh.line1.setText(vh.buffer1.data, 0, vh.buffer1.sizeCopied);
-			
+
 			ImageView icon = vh.icon;
 			// We don't actually need the path to the thumbnail file,
 			// we just use it to see if there is album art or not
-			//boolean unknown = 
-			/*String art = mAlbumId;
-			long aid = cursor.getLong(0);
-			if ( art == null || art.length() == 0) {
-				icon.setImageDrawable(null);
-			} else {*/
-				Bitmap d = MusicUtils.getDefaultArtwork(context);
-				icon.setImageBitmap(d);
-			//}
+			// boolean unknown =
+			/*
+			 * String art = mAlbumId; long aid = cursor.getLong(0); if ( art ==
+			 * null || art.length() == 0) { icon.setImageDrawable(null); } else
+			 * {
+			 */
+			Bitmap d = MusicUtils.getDefaultArtwork(context);
+			icon.setImageBitmap(d);
+			// }
 
 			int secs = cursor.getInt(mDurationIdx) / 1000;
 			if (secs == 0) {
@@ -870,7 +865,6 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 			return 0;
 		}
 	}
-
 
 	private class NowPlayingCursor extends AbstractCursor {
 		public NowPlayingCursor(IMediaPlaybackService service, String[] cols) {
@@ -1261,156 +1255,159 @@ public class TrackBrowser extends ListFragment implements MusicUtils.Defs {
 		v.setVisibility(View.VISIBLE);
 		mTrackList.invalidateViews();
 	}
-	
+
 	@Override
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfoIn) {
-        menu.add(0, PLAY_SELECTION, 0, R.string.play_selection);
-        SubMenu sub = menu.addSubMenu(0, ADD_TO_PLAYLIST, 0, R.string.add_to_playlist);
-        MusicUtils.makePlaylistMenu(this.getActivity(), sub);
-        if (mEditMode) {
-            menu.add(0, REMOVE, 0, R.string.remove_from_playlist);
-        }
-        menu.add(0, USE_AS_RINGTONE, 0, R.string.ringtone_menu);
-        menu.add(0, DELETE_ITEM, 0, R.string.delete_item);
-        AdapterContextMenuInfo mi = (AdapterContextMenuInfo) menuInfoIn;
-        mSelectedPosition =  mi.position;
-        mTrackCursor.moveToPosition(mSelectedPosition);
-        try {
-            int id_idx = mTrackCursor.getColumnIndexOrThrow(
-                    MediaStore.Audio.Playlists.Members.AUDIO_ID);
-            mSelectedId = mTrackCursor.getLong(id_idx);
-        } catch (IllegalArgumentException ex) {
-            mSelectedId = mi.id;
-        }
-        // only add the 'search' menu if the selected item is music
-        if (isMusic(mTrackCursor)) {
-            menu.add(0, SEARCH, 0, R.string.search_title);
-        }
-        mCurrentAlbumName = mTrackCursor.getString(mTrackCursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.ALBUM));
-        mCurrentArtistNameForAlbum = mTrackCursor.getString(mTrackCursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.ARTIST));
-        mCurrentTrackName = mTrackCursor.getString(mTrackCursor.getColumnIndexOrThrow(
-                MediaStore.Audio.Media.TITLE));
-        menu.setHeaderTitle(mCurrentTrackName);
-//        super.onCreateContextMenu(menu, view, menuInfoIn);
-    }
+	public void onCreateContextMenu(ContextMenu menu, View view,
+			ContextMenuInfo menuInfoIn) {
+		menu.add(0, PLAY_SELECTION, 0, R.string.play_selection);
+		SubMenu sub = menu.addSubMenu(0, ADD_TO_PLAYLIST, 0,
+				R.string.add_to_playlist);
+		MusicUtils.makePlaylistMenu(this.getActivity(), sub);
+		if (mEditMode) {
+			menu.add(0, REMOVE, 0, R.string.remove_from_playlist);
+		}
+		menu.add(0, USE_AS_RINGTONE, 0, R.string.ringtone_menu);
+		menu.add(0, DELETE_ITEM, 0, R.string.delete_item);
+		AdapterContextMenuInfo mi = (AdapterContextMenuInfo) menuInfoIn;
+		mSelectedPosition = mi.position;
+		mTrackCursor.moveToPosition(mSelectedPosition);
+		try {
+			int id_idx = mTrackCursor
+					.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID);
+			mSelectedId = mTrackCursor.getLong(id_idx);
+		} catch (IllegalArgumentException ex) {
+			mSelectedId = mi.id;
+		}
+		// only add the 'search' menu if the selected item is music
+		if (isMusic(mTrackCursor)) {
+			menu.add(0, SEARCH, 0, R.string.search_title);
+		}
+		mCurrentAlbumName = mTrackCursor.getString(mTrackCursor
+				.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+		mCurrentArtistNameForAlbum = mTrackCursor.getString(mTrackCursor
+				.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+		mCurrentTrackName = mTrackCursor.getString(mTrackCursor
+				.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+		menu.setHeaderTitle(mCurrentTrackName);
+		// super.onCreateContextMenu(menu, view, menuInfoIn);
+	}
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case PLAY_SELECTION: {
-                // play the track
-                int position = mSelectedPosition;
-                MusicUtils.playAll(this.getActivity(), mTrackCursor, position);
-                return true;
-            }
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case PLAY_SELECTION: {
+			// play the track
+			int position = mSelectedPosition;
+			MusicUtils.playAll(this.getActivity(), mTrackCursor, position);
+			return true;
+		}
 
-            case QUEUE: {
-                long [] list = new long[] { mSelectedId };
-                MusicUtils.addToCurrentPlaylist(this.getActivity(), list);
-                return true;
-            }
+		case QUEUE: {
+			long[] list = new long[] { mSelectedId };
+			MusicUtils.addToCurrentPlaylist(this.getActivity(), list);
+			return true;
+		}
 
-            case NEW_PLAYLIST: {
-                Intent intent = new Intent();
-                intent.setClass(this.getActivity(), CreatePlaylist.class);
-                startActivityForResult(intent, NEW_PLAYLIST);
-                return true;
-            }
+		case NEW_PLAYLIST: {
+			Intent intent = new Intent();
+			intent.setClass(this.getActivity(), CreatePlaylist.class);
+			startActivityForResult(intent, NEW_PLAYLIST);
+			return true;
+		}
 
-            case PLAYLIST_SELECTED: {
-                long [] list = new long[] { mSelectedId };
-                long playlist = item.getIntent().getLongExtra("playlist", 0);
-                MusicUtils.addToPlaylist(this.getActivity(), list, playlist);
-                return true;
-            }
+		case PLAYLIST_SELECTED: {
+			long[] list = new long[] { mSelectedId };
+			long playlist = item.getIntent().getLongExtra("playlist", 0);
+			MusicUtils.addToPlaylist(this.getActivity(), list, playlist);
+			return true;
+		}
 
-            case USE_AS_RINGTONE:
-                // Set the system setting to make this the current ringtone
-                MusicUtils.setRingtone(this.getActivity(), mSelectedId);
-                return true;
+		case USE_AS_RINGTONE:
+			// Set the system setting to make this the current ringtone
+			MusicUtils.setRingtone(this.getActivity(), mSelectedId);
+			return true;
 
-            case DELETE_ITEM: {
-                long [] list = new long[1];
-                list[0] = (int) mSelectedId;
-                Bundle b = new Bundle();
-                String f;
-//                if (android.os.Environment.isExternalStorageRemovable()) {
-                    f = getString(R.string.delete_song_desc); 
-//                } else {
-//                    f = getString(R.string.delete_song_desc_nosdcard); 
-//                }
-                String desc = String.format(f, mCurrentTrackName);
-                b.putString("description", desc);
-                b.putLongArray("items", list);
-                Intent intent = new Intent();
-                intent.setClass(this.getActivity(), DeleteItems.class);
-                intent.putExtras(b);
-                startActivityForResult(intent, -1);
-                return true;
-            }
-            
-            case REMOVE:
-                removePlaylistItem(mSelectedPosition);
-                return true;
-                
-            case SEARCH:
-                doSearch();
-                return true;
-        }
-        return super.onContextItemSelected(item);
-    }
+		case DELETE_ITEM: {
+			long[] list = new long[1];
+			list[0] = (int) mSelectedId;
+			Bundle b = new Bundle();
+			String f;
+			// if (android.os.Environment.isExternalStorageRemovable()) {
+			f = getString(R.string.delete_song_desc);
+			// } else {
+			// f = getString(R.string.delete_song_desc_nosdcard);
+			// }
+			String desc = String.format(f, mCurrentTrackName);
+			b.putString("description", desc);
+			b.putLongArray("items", list);
+			Intent intent = new Intent();
+			intent.setClass(this.getActivity(), DeleteItems.class);
+			intent.putExtras(b);
+			startActivityForResult(intent, -1);
+			return true;
+		}
 
-    void doSearch() {
-        CharSequence title = null;
-        String query = null;
-        
-        Intent i = new Intent();
-        i.setAction(MediaStore.INTENT_ACTION_MEDIA_SEARCH);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        
-        title = mCurrentTrackName;
-        if (MediaStore.UNKNOWN_STRING.equals(mCurrentArtistNameForAlbum)) {
-            query = mCurrentTrackName;
-        } else {
-            query = mCurrentArtistNameForAlbum + " " + mCurrentTrackName;
-            i.putExtra(MediaStore.EXTRA_MEDIA_ARTIST, mCurrentArtistNameForAlbum);
-        }
-        if (MediaStore.UNKNOWN_STRING.equals(mCurrentAlbumName)) {
-            i.putExtra(MediaStore.EXTRA_MEDIA_ALBUM, mCurrentAlbumName);
-        }
-        i.putExtra(MediaStore.EXTRA_MEDIA_FOCUS, "audio/*");
-        title = getString(R.string.mediasearch, title);
-        i.putExtra(SearchManager.QUERY, query);
+		case REMOVE:
+			removePlaylistItem(mSelectedPosition);
+			return true;
 
-        startActivity(Intent.createChooser(i, title));
-    }
-    
-    // Cursor should be positioned on the entry to be checked
-    // Returns false if the entry matches the naming pattern used for recordings,
-    // or if it is marked as not music in the database.
-    private boolean isMusic(Cursor c) {
-        int titleidx = c.getColumnIndex(MediaStore.Audio.Media.TITLE);
-        int albumidx = c.getColumnIndex(MediaStore.Audio.Media.ALBUM);
-        int artistidx = c.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+		case SEARCH:
+			doSearch();
+			return true;
+		}
+		return super.onContextItemSelected(item);
+	}
 
-        String title = c.getString(titleidx);
-        String album = c.getString(albumidx);
-        String artist = c.getString(artistidx);
-        if (MediaStore.UNKNOWN_STRING.equals(album) &&
-                MediaStore.UNKNOWN_STRING.equals(artist) &&
-                title != null &&
-                title.startsWith("recording")) {
-            // not music
-            return false;
-        }
+	void doSearch() {
+		CharSequence title = null;
+		String query = null;
 
-        int ismusic_idx = c.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC);
-        boolean ismusic = true;
-        if (ismusic_idx >= 0) {
-            ismusic = mTrackCursor.getInt(ismusic_idx) != 0;
-        }
-        return ismusic;
-    }
+		Intent i = new Intent();
+		i.setAction(MediaStore.INTENT_ACTION_MEDIA_SEARCH);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		title = mCurrentTrackName;
+		if (MediaStore.UNKNOWN_STRING.equals(mCurrentArtistNameForAlbum)) {
+			query = mCurrentTrackName;
+		} else {
+			query = mCurrentArtistNameForAlbum + " " + mCurrentTrackName;
+			i.putExtra(MediaStore.EXTRA_MEDIA_ARTIST,
+					mCurrentArtistNameForAlbum);
+		}
+		if (MediaStore.UNKNOWN_STRING.equals(mCurrentAlbumName)) {
+			i.putExtra(MediaStore.EXTRA_MEDIA_ALBUM, mCurrentAlbumName);
+		}
+		i.putExtra(MediaStore.EXTRA_MEDIA_FOCUS, "audio/*");
+		title = getString(R.string.mediasearch, title);
+		i.putExtra(SearchManager.QUERY, query);
+
+		startActivity(Intent.createChooser(i, title));
+	}
+
+	// Cursor should be positioned on the entry to be checked
+	// Returns false if the entry matches the naming pattern used for
+	// recordings,
+	// or if it is marked as not music in the database.
+	private boolean isMusic(Cursor c) {
+		int titleidx = c.getColumnIndex(MediaStore.Audio.Media.TITLE);
+		int albumidx = c.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+		int artistidx = c.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+
+		String title = c.getString(titleidx);
+		String album = c.getString(albumidx);
+		String artist = c.getString(artistidx);
+		if (MediaStore.UNKNOWN_STRING.equals(album)
+				&& MediaStore.UNKNOWN_STRING.equals(artist) && title != null
+				&& title.startsWith("recording")) {
+			// not music
+			return false;
+		}
+
+		int ismusic_idx = c.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC);
+		boolean ismusic = true;
+		if (ismusic_idx >= 0) {
+			ismusic = mTrackCursor.getInt(ismusic_idx) != 0;
+		}
+		return ismusic;
+	}
 }

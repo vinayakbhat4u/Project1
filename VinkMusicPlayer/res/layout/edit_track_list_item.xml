@@ -14,26 +14,25 @@
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
-*/
+*/
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="66dip"
+    android:layout_height="90dip"
+    android:baselineAligned="false"
     android:gravity="bottom"
-    android:orientation="vertical"
-    android:baselineAligned="false">
+    android:orientation="vertical" >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="66dip"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:ignoreGravity="@+id/icon"
-        
-        android:paddingLeft="47dip"
-        >
-<!-- android:background="@drawable/playlist_tile"
- -->        <include layout="@layout/track_list_item_common" />
+        android:paddingLeft="47dip" >
 
+<!--  android:background="@drawable/playlist_tile" -->
+
+        <include layout="@layout/track_list_item_common" />
     </RelativeLayout>
 
 </LinearLayout>

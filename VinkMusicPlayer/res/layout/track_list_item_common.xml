@@ -14,7 +14,7 @@
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
-*/
+*/
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
@@ -24,9 +24,8 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:padding="6dip" />
 
     <TextView
         android:id="@+id/duration"
@@ -35,14 +34,13 @@
         android:layout_alignBaseline="@+id/line1"
         android:layout_alignParentRight="true"
         android:paddingLeft="4dip"
-        android:paddingRight="11dip"
+        android:paddingRight="6dip"
         android:singleLine="true"
-       android:textColor="@android:color/black"       
+        android:textColor="@android:color/black"
         android:textSize="12sp"
         android:textStyle="bold" />
 
-    <!-- 
-    android:textColor="?android:attr/textColorTertiary" -->
+    <!-- android:textColor="?android:attr/textColorTertiary" -->
     <!-- The height is set to half the height of the parent, which is 64 dip -->
 
     <TextView
@@ -53,11 +51,10 @@
         android:layout_toLeftOf="@id/duration"
         android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
-        android:paddingLeft="9dip"
+        android:paddingLeft="6dip"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black"
- />
+        android:textColor="@android:color/black" />
 
     <!-- The height is set to half the height of the parent, which is 64 dip -->
 
@@ -70,7 +67,7 @@
         android:layout_toLeftOf="@id/duration"
         android:layout_toRightOf="@id/icon"
         android:ellipsize="end"
-        android:paddingLeft="9dip"
+        android:paddingLeft="6dip"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -83,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/duration"
-        android:layout_marginRight="12dip"
+        android:layout_marginRight="6dip"
         android:layout_marginTop="10dip" />
 
 </merge>

@@ -2,32 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center_vertical" 
-    android:background="@color/holo_light_grey">
+    android:gravity="center_vertical" >
 
     <!-- android:background="#edeeee" -->
 
-     <com.vink.music.support.TouchInterceptor
+    <com.vink.music.support.TouchInterceptor
         android:id="@android:id/list"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:alwaysDrawnWithCache="false"
-        android:cacheColorHint="@drawable/transparent_background"
+        android:cacheColorHint="@android:color/transparent"
         android:clickable="true"
-        android:drawSelectorOnTop="false"        
+        android:padding="6dip"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:smoothScrollbar="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp" 
-        android:divider="@color/holo_light_grey"
-        android:dividerHeight="5dp"/> 
-        
-         <!--        style="?divider"
-        android:dividerHeight="0.5dp"
-                android:persistentDrawingCache="none"
-        android:scrollingCache="false"
-        android:fastScrollEnabled="true" -->
+        android:smoothScrollbar="true" />
 
 </RelativeLayout>
